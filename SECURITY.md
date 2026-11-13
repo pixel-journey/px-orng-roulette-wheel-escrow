@@ -1,10 +1,10 @@
-# Security
+# Security notes — roulette
 
-| Surface | Closed by |
+| Mitigated | Behavior |
 | --- | --- |
-| Insolvent 36x promise | bank ≥ extra at place |
-| Modulo bias | reject bytes 222..255 |
-| Double settle | already resolved |
-| Pocket outside 0..36 | refused |
+| Bad number / stake | refused |
+| Bank < extra | refused |
+| Reject sample | rerequest, not settle |
+| Double resolve | refused |
 
-Not claimed: multi-bet layouts (red/black, dozens), live ORNG, wasm.
+Production: oracle auth, token escrow, explicit cancel path for stuck rerequests.
