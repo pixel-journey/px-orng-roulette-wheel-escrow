@@ -1,10 +1,5 @@
-# Security notes — roulette
+# Security
 
-| Mitigated | Behavior |
-| --- | --- |
-| Bad number / stake | refused |
-| Bank < extra | refused |
-| Reject sample | rerequest, not settle |
-| Double resolve | refused |
+Closed: bad number, zero stake, short bank, missing bet, double resolve, reopen only from rerequest.
 
-Production: oracle auth, token escrow, explicit cancel path for stuck rerequests.
+Not closed: no `require_auth`, no live RNG, no multi-bet risk limits, numbers are JS strings for balances in the books.

@@ -1,28 +1,29 @@
-# Education — European roulette (straight-up)
-
-> **Rung:** `npm test` passes. Prefer oracle entropy from the ORNG infra labs.  
-> Straight-up only; 37 pockets (0..36).
-
-## What you should be able to do
-
-| Level | Skill |
-| --- | --- |
-| Beginner | Map byte → pocket without bias |
-| Intermediate | 200 bps edge on 36× fair payout |
-| Masterclass | Bank reserve + rerequest status on reject |
+# Education — European roulette escrow
 
 ## Beginner
 
-Straight bet on a single number. Fair multiplier is 36× stake; this lab pays `stake * 36 * 9800 / 10000` (2% edge).
+One number, one stake. The wheel has 37 pockets including zero. A fair byte sample must not favor low numbers, so only 222 of 256 byte values are accepted (six full sets of 37).
+
+A win pays about 36× the stake after a 200 bps house edge. The bank must reserve `payout - stake` before the bet is accepted.
 
 ## Intermediate
 
-`pocketFromByte`: accept `byte < 222` so `byte % 37` is uniform over 0..36. Bytes `222..255` → **reject** / rerequest (not a forced pocket).
+| Function | Role |
+| --- | --- |
+| `place` | Takes stake into escrow, locks reserve from the bank |
+| `deliver` | Maps first entropy byte to a pocket, pays or loses, or marks rerequest |
+| `reopen` | Only from `rerequest` |
 
-## Masterclass
+Reject does not pay and does not release escrow. A second deliver on a resolved bet is refused.
 
-Same solvency pattern as dice: reserve `payout - stake` at place. Reject sets status `rerequest`; `reopen` returns to `open` without releasing reserve until a real resolve or a separate cancel policy (not in this lab).
+## Masterclass (not in this repo)
 
-## Will not teach
+- Multi-number layouts (splits, streets, dozens).
+- Live `orng.wax` job and credits.
+- Token custody and wasm.
 
-Outside bets (red/black), multi-number streets, or live orng delivery.
+## Outcomes
+
+1. State why 222, not 256, is the accept bound.
+2. Compute the reserve for a given stake from `straightPayout`.
+3. Show a reject path that leaves escrow intact.
