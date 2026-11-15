@@ -1,5 +1,5 @@
 # Security
 
-Closed: bad number, zero stake, short bank, missing bet, double resolve, reopen only from rerequest.
+Closed in tests: bad number, zero stake, underfunded bank, missing/duplicate deliver, reject sample.
 
-Not closed: no `require_auth`, no live RNG, no multi-bet risk limits, numbers are JS strings for balances in the books.
+Not closed: live orng auth, dual-callback entropy mismatch (see coinflip lab), wasm bank accounting.

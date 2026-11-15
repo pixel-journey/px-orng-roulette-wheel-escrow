@@ -1,6 +1,6 @@
 # Tips
 
-- Reserve at place time. Accepting a bet the bank cannot cover is the solvency bug.
-- `pocketFromByte(37) === 0` is intentional: the second band of 37 starts over.
-- Rerequest is not a free re-spin of the same entropy; call `reopen` then wait for new bytes.
-- Do not treat this as American roulette (00). Only 0..36.
+- Fund the bank with `straightPayout(stake) - stake` before accepting the bet.
+- Treat 254-style high bytes as rerequest, not as pocket 0.
+- Number 37 is never a valid straight-up selection in this lab.
+- Multi-bet layouts (red/black, dozens) are out of scope here.

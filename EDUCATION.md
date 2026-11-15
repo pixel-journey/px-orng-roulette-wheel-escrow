@@ -1,29 +1,27 @@
-# Education — European roulette escrow
+# Education — European straight-up roulette escrow
+
+Single-number bets on pockets `0..36`. Payout is 36× with a **200 bps** house edge. Entropy is a 32-byte hex argument; the first byte maps to a pocket via rejection sampling.
 
 ## Beginner
 
-One number, one stake. The wheel has 37 pockets including zero. A fair byte sample must not favor low numbers, so only 222 of 256 byte values are accepted (six full sets of 37).
-
-A win pays about 36× the stake after a 200 bps house edge. The bank must reserve `payout - stake` before the bet is accepted.
+1. Stake and pick a number in `0..36`.
+2. Bank must hold the extra payout beyond the stake before the bet opens.
+3. Deliver entropy: matching pocket pays `straightPayout(stake)`; other pocket pays 0.
 
 ## Intermediate
 
-| Function | Role |
-| --- | --- |
-| `place` | Takes stake into escrow, locks reserve from the bank |
-| `deliver` | Maps first entropy byte to a pocket, pays or loses, or marks rerequest |
-| `reopen` | Only from `rerequest` |
+`ACCEPT_BELOW = 222`: bytes 0..221 are six full cycles of 37 plus a partial; 222..255 reject. Rejected bets go to `rerequest` without settling escrow.
 
-Reject does not pay and does not release escrow. A second deliver on a resolved bet is refused.
+Straight payout on 10000 is **352800** in the tests.
 
 ## Masterclass (not in this repo)
 
-- Multi-number layouts (splits, streets, dozens).
-- Live `orng.wax` job and credits.
-- Token custody and wasm.
+Live orng.wax dual-callback, multi-pocket bets (split, street, dozen), C++ bank table.
 
 ## Outcomes
 
-1. State why 222, not 256, is the accept bound.
-2. Compute the reserve for a given stake from `straightPayout`.
-3. Show a reject path that leaves escrow intact.
+1. Map bytes 0, 36, 37, 221, 222 from tests.
+2. Show win on 17 drains escrow and reserve.
+3. Show reject leaves escrow and allows reopen.
+
+Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md).

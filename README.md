@@ -1,22 +1,12 @@
-# European roulette 0–36 with bank reserve
+# European roulette straight-up escrow
 
-> **Domain:** WAX ORNG — roulette  
-> **Sources:** [SOURCES.md](SOURCES.md)  
-> **Path:** [ORNG-LEARNING-PATH.md](https://github.com/pixel-journey/px-contract-examples-vault/blob/main/docs/ORNG-LEARNING-PATH.md)
-
-**Goal:** Straight-up bets; rejection-sampled pocket 0..36; 200 bps edge on 36×; bank reserves extra at place; reject → rerequest.
-
-**Code under test:** `npm test`. No live `orng.wax`.
-
-## Learning materials
+Pockets 0–36, rejection-sampled first byte, 200 bps edge, bank reserve before open. Pure TypeScript books; entropy is an argument, not a live orng call.
 
 | Doc | Role |
 | --- | --- |
-| [EDUCATION.md](EDUCATION.md) | Beginner → masterclass |
-| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | Pocket, reserve, rerequest |
-| [TIPS.md](TIPS.md) | Unbiased % 37 |
-| [SECURITY.md](SECURITY.md) | Solvency |
-| [SOURCES.md](SOURCES.md) | Official |
+| [EDUCATION.md](EDUCATION.md) | Edge + rejection |
+| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | 17 win, loss, rerequest |
+| [SOURCES.md](SOURCES.md) | orng / Antelope context |
 
 ```bash
 npm test
