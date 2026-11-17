@@ -1,27 +1,46 @@
 # Education — European straight-up roulette escrow
 
-Single-number bets on pockets `0..36`. Payout is 36× with a **200 bps** house edge. Entropy is a 32-byte hex argument; the first byte maps to a pocket via rejection sampling.
+> **Rung:** `npm test` passes. Bank / escrow / reserved books only. Entropy is a hex **argument**. No `orng.wax` broadcast.  
+> **The test is the rule.**
+
+Single-number bets on pockets **0..36** (37 values). Payout is 36× with a **200 bps** house edge. First entropy byte maps to a pocket via rejection sampling (`ACCEPT_BELOW = 222`).
+
+Prerequisites: [v3 starter](https://github.com/pixel-journey/px-orng-v3-randnotify-starter), [dual-callback](https://github.com/pixel-journey/px-orng-dual-callback-idempotent), [coinflip](https://github.com/pixel-journey/px-orng-coinflip-escrow) for the escrow/reserve pattern.
+
+Official RNG: [wax-orng](https://github.com/worldwide-asset-exchange/wax-orng) · [RNG tutorial](https://docs.wax.io/build/tutorials/create-wax-rng-smart-contract/rng_sample).
+
+## Learning outcomes
+
+| Level | After this file |
+| --- | --- |
+| Beginner | Stake a number 0..36; bank holds extra before open |
+| Intermediate | Bytes 0..221 map; 222..255 rerequest |
+| Masterclass | Win drains escrow+reserve; reject leaves money for reopen |
+
+---
 
 ## Beginner
 
-1. Stake and pick a number in `0..36`.
-2. Bank must hold the extra payout beyond the stake before the bet opens.
-3. Deliver entropy: matching pocket pays `straightPayout(stake)`; other pocket pays 0.
+Straight payout on stake `10000` is **352800** in the tests (36× after 200 bps edge).
 
-## Intermediate
+Bank must already hold `straightPayout(stake) - stake` before `place`.
 
-`ACCEPT_BELOW = 222`: bytes 0..221 are six full cycles of 37 plus a partial; 222..255 reject. Rejected bets go to `rerequest` without settling escrow.
+## Intermediate — rejection sampling
 
-Straight payout on 10000 is **352800** in the tests.
+| Byte | Pocket |
+| --- | --- |
+| 0 | 0 |
+| 36 | 36 |
+| 37 | 0 (next cycle) |
+| 221 | 221 % 37 |
+| 222..255 | reject |
 
-## Masterclass (not in this repo)
+Rejected bets → status `rerequest`; escrow and reserved stay. `reopen` returns to `open` (not a free refund path).
 
-Live orng.wax dual-callback, multi-pocket bets (split, street, dozen), C++ bank table.
+## Masterclass
 
-## Outcomes
+Win on chosen number pays full straight payout and zeroes escrow/reserve. Loss returns stake+extra to bank. Second deliver on same id refused. Number 37 invalid. Multi-pocket layouts (red/black, dozens) are **out of scope**.
 
-1. Map bytes 0, 36, 37, 221, 222 from tests.
-2. Show win on 17 drains escrow and reserve.
-3. Show reject leaves escrow and allows reopen.
+Books are not a token transfer to the player — same honesty rule as coinflip.
 
 Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md).

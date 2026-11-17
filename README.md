@@ -1,12 +1,14 @@
-# European roulette straight-up escrow
+# European straight-up roulette escrow
 
-Pockets 0–36, rejection-sampled first byte, 200 bps edge, bank reserve before open. Pure TypeScript books; entropy is an argument, not a live orng call.
+Educational 0..36 single-number bets with 200 bps edge, rejection sampling, bank reserve, rerequest. Pure TypeScript books.
 
 | Doc | Role |
 | --- | --- |
-| [EDUCATION.md](EDUCATION.md) | Edge + rejection |
-| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | 17 win, loss, rerequest |
-| [SOURCES.md](SOURCES.md) | orng / Antelope context |
+| [EDUCATION.md](EDUCATION.md) | Beginner → masterclass |
+| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | Byte map + payout tables |
+| [TIPS.md](TIPS.md) | Reserve before accept |
+| [SECURITY.md](SECURITY.md) | Gaps |
+| [SOURCES.md](SOURCES.md) | wax-orng |
 
 ```bash
 npm test
