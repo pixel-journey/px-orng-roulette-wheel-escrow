@@ -35,12 +35,40 @@ Bank must already hold `straightPayout(stake) - stake` before `place`.
 | 221 | 221 % 37 |
 | 222..255 | reject |
 
+Why 222? `6 × 37 = 222`. Bytes `0..221` are six full sets of pockets; the remaining 34 values would bias low residues if used.
+
 Rejected bets → status `rerequest`; escrow and reserved stay. `reopen` returns to `open` (not a free refund path).
 
 ## Masterclass
 
-Win on chosen number pays full straight payout and zeroes escrow/reserve. Loss returns stake+extra to bank. Second deliver on same id refused. Number 37 invalid. Multi-pocket layouts (red/black, dozens) are **out of scope**.
+Win on chosen number pays full straight payout and zeroes escrow/reserve. Loss returns stake+extra to bank. Second deliver on same id refused. Number 37 invalid.
+
+**Scope is straight-up only.** Red/black, dozens, and splits need new tests and a different payout/reserve table. Do not paste this formula into an outside bet.
 
 Books are not a token transfer to the player — same honesty rule as coinflip.
 
+### Common mistakes
+
+1. Mapping high bytes into pocket 0 and calling it house edge.  
+2. Accepting 37 because "wheels have zero."  
+3. Reusing coinflip’s 254–255 or dice’s 200–255 reject window.  
+4. Settling a rejected sample.  
+5. Sharing one bank extra across two concurrent max straight-ups.
+
+### Nice-to-have extensions (not in this repo)
+
+| Idea | Note |
+| --- | --- |
+| Outside bets | Separate payout and reserve math |
+| Multi-pocket ticket | Cap sum of max liabilities |
+| Token credit on win | After once-resolve |
+| Credits gate | [credit bucket](https://github.com/pixel-journey/px-orng-credit-bucket-monitor) |
+
 Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md).
+
+### Exercises
+
+1. Why is `ACCEPT_BELOW` 222, not 256?  
+2. Stake 1000 on 17, first byte `0x11` — win or loss?  
+3. Does a rerequest refund the player immediately? (No — status stays; reopen continues.)  
+4. Preferred RNG on WAX mainnet? (`orng.wax`)
