@@ -15,4 +15,4 @@
 | [coinflip](https://github.com/pixel-journey/px-orng-coinflip-escrow) | Reject 254–255 |
 | [dice](https://github.com/pixel-journey/px-orng-dice-multi-tier-payout) | Reject 200–255; chance 49 |
 | [byte-slicer](https://github.com/pixel-journey/px-orng-byte-slicer-multi-roll) | Independent windows |
-| [ORNG path](https://github.com/pixel-journey/px-contract-examples-vault/blob/main/docs/ORNG-LEARNING-PATH.md) | Reject windows cheatsheet |
+| `px-contract-examples-vault` (private index; not this public course) | Reject windows cheatsheet |

@@ -31,4 +31,4 @@ This lab is **straight-up only** (single pocket 0..36). Red/black, dozens, and s
 | Multi-pocket ticket | Cap sum of max liabilities |
 | Token credit on win | After once-resolve |
 
-Related: [coinflip](https://github.com/pixel-journey/px-orng-coinflip-escrow) · [dice](https://github.com/pixel-journey/px-orng-dice-multi-tier-payout) · [ORNG path](https://github.com/pixel-journey/px-contract-examples-vault/blob/main/docs/ORNG-LEARNING-PATH.md) · [wax-orng](https://github.com/worldwide-asset-exchange/wax-orng)
+Related: [coinflip](https://github.com/pixel-journey/px-orng-coinflip-escrow) · [dice](https://github.com/pixel-journey/px-orng-dice-multi-tier-payout) · `px-contract-examples-vault` (private index; not this public course) · [wax-orng](https://github.com/worldwide-asset-exchange/wax-orng)
