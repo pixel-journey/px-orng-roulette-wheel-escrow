@@ -25,6 +25,12 @@ Straight payout on stake `10000` is **352800** in the tests (36× after 200 bps 
 
 Bank must already hold `straightPayout(stake) - stake` before `place`.
 
+```bash
+npm test
+```
+
+---
+
 ## Intermediate — rejection sampling
 
 | Byte | Pocket |
@@ -39,9 +45,21 @@ Why 222? `6 × 37 = 222`. Bytes `0..221` are six full sets of pockets; the remai
 
 Rejected bets → status `rerequest`; escrow and reserved stay. `reopen` returns to `open` (not a free refund path).
 
+### Attack → test
+
+| Attack | Lab behavior |
+| --- | --- |
+| Map 222..255 into pocket 0 | reject / rerequest |
+| Number 37 | invalid |
+| Settle reject sample | refused |
+| Reuse coinflip 254–255 window | this lab is **222** |
+| Outside bet with this formula | wrong product |
+
+---
+
 ## Masterclass
 
-Win on chosen number pays full straight payout and zeroes escrow/reserve. Loss returns stake+extra to bank. Second deliver on same id refused. Number 37 invalid.
+Win on chosen number pays full straight payout and zeroes escrow/reserve. Loss returns stake+extra to bank. Second deliver on same id refused.
 
 **Scope is straight-up only.** Red/black, dozens, and splits need new tests and a different payout/reserve table. Do not paste this formula into an outside bet.
 
@@ -55,20 +73,18 @@ Books are not a token transfer to the player — same honesty rule as coinflip.
 4. Settling a rejected sample.  
 5. Sharing one bank extra across two concurrent max straight-ups.
 
-### Nice-to-have extensions (not in this repo)
-
-| Idea | Note |
-| --- | --- |
-| Outside bets | Separate payout and reserve math |
-| Multi-pocket ticket | Cap sum of max liabilities |
-| Token credit on win | After once-resolve |
-| Credits gate | [credit bucket](https://github.com/pixel-journey/px-orng-credit-bucket-monitor) |
-
-Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md).
-
 ### Exercises
 
-1. Why is `ACCEPT_BELOW` 222, not 256?  
-2. Stake 1000 on 17, first byte `0x11` — win or loss?  
-3. Does a rerequest refund the player immediately? (No — status stays; reopen continues.)  
-4. Preferred RNG on WAX mainnet? (`orng.wax`)
+1. Why is `ACCEPT_BELOW` 222, not 256? (**6×37 unbiased sets**.)  
+2. Does a rerequest refund the player immediately? (**No**.)  
+3. Preferred RNG on WAX mainnet? (`orng.wax`)
+
+Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) · [SECURITY](SECURITY.md) · [SOURCES](SOURCES.md).
+
+---
+
+## What this course will not teach
+
+- Outside bets / multi-pocket tickets
+- Live oracle auth
+- Token broadcast of payouts
